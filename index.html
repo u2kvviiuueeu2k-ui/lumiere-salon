@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUMIÈRE SALON | 日常から切り離される時間</title>
+  <meta name="description" content="東京・渋谷。喧噪から離れた静謐な空間で、あなただけの時間を。LUMIÈRE SALONは、日常を忘れさせてくれる上質なヘアサロンです。">
+
+  <!-- OGP -->
+  <meta property="og:title" content="LUMIÈRE SALON | 日常から切り離される時間">
+  <meta property="og:description" content="東京・渋谷。喧噪から離れた静謐な空間で、あなただけの時間を。">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1200&q=80">
+  <meta property="og:url" content="https://lumiere-salon.vercel.app">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="LUMIÈRE SALON">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LUMIÈRE SALON | 日常から切り離される時間">
+  <meta name="twitter:description" content="東京・渋谷。喧噪から離れた静謐な空間で、あなただけの時間を。">
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1200&q=80">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #F8F5F0;
+      --text: #2D2D2D;
+      --gold: #C9A84C;
+      --light: #F0EBE3;
+      --muted: #8A8278;
+      --white: #FFFFFF;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 300;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    /* HEADER */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 28px 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.5s ease, padding 0.4s ease, border-color 0.5s ease;
+    }
+
+    header.scrolled {
+      background: rgba(248, 245, 240, 0.96);
+      backdrop-filter: blur(10px);
+      padding: 18px 56px;
+      border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 1.15rem;
+      letter-spacing: 0.35em;
+      color: var(--white);
+      text-decoration: none;
+      transition: color 0.5s ease;
+    }
+    header.scrolled .logo { color: var(--text); }
+
+    .header-nav {
+      display: flex;
+      gap: 44px;
+      list-style: none;
+    }
+    .header-nav a {
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .header-nav a:hover { color: var(--gold); }
+    header.scrolled .header-nav a { color: var(--muted); }
+    header.scrolled .header-nav a:hover { color: var(--gold); }
+
+    .header-btn {
+      font-size: 0.68rem;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.7);
+      padding: 9px 22px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .header-btn:hover {
+      background: var(--gold);
+      color: var(--white);
+      border-color: var(--gold);
+    }
+
+    /* HERO */
+    #hero {
+      position: relative;
+      height: 100vh;
+      min-height: 680px;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1920&q=85');
+      background-size: cover;
+      background-position: center 30%;
+      transform: scale(1.06);
+      transition: transform 10s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    #hero.loaded .hero-bg { transform: scale(1); }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        160deg,
+        rgba(15,12,10,0.55) 0%,
+        rgba(15,12,10,0.35) 50%,
+        rgba(15,12,10,0.62) 100%
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 24px;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.78rem;
+      font-weight: 300;
+      letter-spacing: 0.6em;
+      color: var(--gold);
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 1.1s ease 0.4s, transform 1.1s ease 0.4s;
+      margin-bottom: 28px;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(1.9rem, 4.5vw, 3.4rem);
+      font-weight: 300;
+      color: var(--white);
+      letter-spacing: 0.18em;
+      line-height: 1.75;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1.2s ease 0.7s, transform 1.2s ease 0.7s;
+      margin-bottom: 36px;
+    }
+
+    .hero-logo-en {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 1.35em;
+      color: var(--gold);
+      letter-spacing: 0.25em;
+      margin-top: 10px;
+    }
+
+    .hero-line {
+      width: 1px;
+      height: 56px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 1s ease 1.4s;
+    }
+
+    #hero.loaded .hero-eyebrow,
+    #hero.loaded .hero-title,
+    #hero.loaded .hero-line {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      color: rgba(255,255,255,0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .hero-scroll::after {
+      content: '';
+      width: 1px;
+      height: 44px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%,100% { opacity: 0.5; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.15); }
+    }
+
+    /* SECTION LABEL */
+    .section-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.55em;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 56px;
+    }
+    .section-label::after {
+      content: '';
+      width: 48px;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.45;
+    }
+
+    /* CONCEPT */
+    #concept {
+      padding: 148px 56px;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 96px;
+      align-items: center;
+    }
+
+    .concept-text h2 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(1.45rem, 2.8vw, 2.1rem);
+      font-weight: 300;
+      line-height: 2;
+      letter-spacing: 0.07em;
+      margin-bottom: 36px;
+    }
+    .concept-text p {
+      font-size: 0.875rem;
+      line-height: 2.4;
+      color: var(--muted);
+    }
+
+    .concept-image {
+      position: relative;
+    }
+    .concept-image img {
+      width: 100%;
+      height: 540px;
+      object-fit: cover;
+      display: block;
+    }
+    .concept-image::before {
+      content: '';
+      position: absolute;
+      top: -22px;
+      left: -22px;
+      right: 22px;
+      bottom: 22px;
+      border: 1px solid rgba(201,168,76,0.28);
+      z-index: -1;
+    }
+
+    /* SERVICES */
+    #services {
+      background: var(--text);
+      padding: 128px 56px;
+    }
+    .services-inner { max-width: 1120px; margin: 0 auto; }
+    .services-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+      font-weight: 300;
+      color: var(--white);
+      letter-spacing: 0.25em;
+      margin-bottom: 80px;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid rgba(201,168,76,0.15);
+    }
+    .service-item {
+      padding: 52px 40px;
+      border-right: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+      transition: background 0.3s ease;
+    }
+    .service-item:nth-child(3n) { border-right: none; }
+    .service-item:hover { background: rgba(255,255,255,0.03); }
+    .service-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.72rem;
+      color: var(--gold);
+      letter-spacing: 0.4em;
+      margin-bottom: 22px;
+    }
+    .service-name {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--white);
+      letter-spacing: 0.12em;
+      margin-bottom: 14px;
+    }
+    .service-desc {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.38);
+      line-height: 2.1;
+      margin-bottom: 32px;
+    }
+    .service-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.45rem;
+      font-weight: 300;
+      color: var(--gold);
+    }
+    .service-price small {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.65rem;
+      color: rgba(201,168,76,0.55);
+      margin-left: 4px;
+    }
+
+    /* GALLERY */
+    #gallery {
+      padding: 128px 56px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: 280px 280px;
+      gap: 10px;
+    }
+    .gallery-item { overflow: hidden; }
+    .gallery-item:first-child { grid-row: span 2; }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      filter: brightness(0.95);
+    }
+    .gallery-item:hover img {
+      transform: scale(1.05);
+      filter: brightness(1);
+    }
+
+    /* STYLIST */
+    #stylist {
+      background: var(--light);
+      padding: 128px 56px;
+    }
+    .stylist-inner { max-width: 1120px; margin: 0 auto; }
+    .stylist-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px 80px;
+    }
+    .stylist-card { display: flex; gap: 28px; align-items: flex-start; }
+    .stylist-photo {
+      width: 140px;
+      height: 176px;
+      object-fit: cover;
+      object-position: top;
+      flex-shrink: 0;
+      filter: grayscale(15%) brightness(0.97);
+    }
+    .stylist-info { flex: 1; padding-top: 4px; }
+    .stylist-role {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.45em;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .stylist-name {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.15rem;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      margin-bottom: 4px;
+    }
+    .stylist-en {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: var(--muted);
+      letter-spacing: 0.22em;
+      margin-bottom: 16px;
+    }
+    .stylist-bio {
+      font-size: 0.78rem;
+      line-height: 2.1;
+      color: var(--muted);
+    }
+
+    /* ACCESS */
+    #access {
+      padding: 128px 56px;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+    .access-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 96px;
+      align-items: start;
+    }
+    .access-block { margin-bottom: 36px; }
+    .access-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.48em;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .access-val {
+      font-size: 0.875rem;
+      line-height: 2.1;
+      color: var(--text);
+    }
+    .access-sep {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.3;
+      margin-bottom: 36px;
+    }
+    .access-map-wrap {
+      background: #E8E4DF;
+      height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .access-map-inner {
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.35em;
+      color: var(--muted);
+    }
+    .access-map-inner::before {
+      content: '◈';
+      display: block;
+      font-size: 1.6rem;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    /* RESERVE CTA */
+    #reserve {
+      background: var(--text);
+      padding: 148px 56px;
+      text-align: center;
+    }
+    #reserve .section-label {
+      justify-content: center;
+    }
+    #reserve .section-label::after { display: none; }
+    #reserve h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 5.5vw, 4.5rem);
+      font-weight: 300;
+      color: var(--white);
+      letter-spacing: 0.25em;
+      margin-bottom: 20px;
+    }
+    #reserve p {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.38);
+      letter-spacing: 0.18em;
+      margin-bottom: 60px;
+    }
+    .btn-outline-gold {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 300;
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 18px 60px;
+      text-decoration: none;
+      transition: all 0.35s ease;
+    }
+    .btn-outline-gold:hover {
+      background: var(--gold);
+      color: var(--text);
+    }
+
+    /* FOOTER */
+    footer {
+      background: #1C1A17;
+      padding: 64px 56px 40px;
+    }
+    .footer-inner { max-width: 1120px; margin: 0 auto; }
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-bottom: 48px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      margin-bottom: 32px;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 300;
+      letter-spacing: 0.42em;
+      color: var(--white);
+    }
+    .footer-tag {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.2em;
+      margin-top: 8px;
+    }
+    .footer-links {
+      display: flex;
+      gap: 40px;
+    }
+    .footer-links a {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.35);
+      text-decoration: none;
+      letter-spacing: 0.12em;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-copy {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.18);
+      letter-spacing: 0.1em;
+    }
+
+    /* REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.9s cubic-bezier(0.25,0.46,0.45,0.94),
+                  transform 0.9s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.15s; }
+    .reveal-delay-2 { transition-delay: 0.3s; }
+    .reveal-delay-3 { transition-delay: 0.45s; }
+
+    /* HAMBURGER */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 1px;
+      background: var(--white);
+      transition: background 0.5s;
+    }
+    header.scrolled .hamburger span { background: var(--text); }
+
+    .sp-nav {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(248,245,240,0.98);
+      backdrop-filter: blur(12px);
+      z-index: 200;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 44px;
+    }
+    .sp-nav.open { display: flex; }
+    .sp-nav a {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.15rem;
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .sp-nav a:hover { color: var(--gold); }
+    .sp-nav-close {
+      position: absolute;
+      top: 24px;
+      right: 28px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--muted);
+      letter-spacing: 0;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      header, header.scrolled { padding-left: 36px; padding-right: 36px; }
+      #concept, #gallery, #access { padding-left: 36px; padding-right: 36px; }
+      #services, #stylist, #reserve { padding-left: 36px; padding-right: 36px; }
+      footer { padding-left: 36px; padding-right: 36px; }
+      .concept-grid { gap: 60px; }
+    }
+
+    @media (max-width: 768px) {
+      header, header.scrolled { padding: 18px 24px; }
+      .header-nav, .header-btn { display: none; }
+      .hamburger { display: flex; }
+
+      #concept { padding: 88px 24px; }
+      .concept-grid { grid-template-columns: 1fr; gap: 48px; }
+      .concept-image::before { display: none; }
+      .concept-image img { height: 320px; }
+
+      #services { padding: 88px 24px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .service-item { border-right: none; }
+
+      #gallery { padding: 88px 24px; }
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 200px 200px 200px;
+      }
+      .gallery-item:first-child { grid-row: span 2; }
+
+      #stylist { padding: 88px 24px; }
+      .stylist-grid { grid-template-columns: 1fr; gap: 48px; }
+
+      #access { padding: 88px 24px; }
+      .access-grid { grid-template-columns: 1fr; gap: 48px; }
+
+      #reserve { padding: 100px 24px; }
+
+      footer { padding: 48px 24px 36px; }
+      .footer-top { flex-direction: column; gap: 36px; }
+      .footer-links { flex-wrap: wrap; gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header id="mainHeader">
+    <a href="#" class="logo">LUMIÈRE SALON</a>
+    <nav class="header-nav">
+      <a href="#concept">Concept</a>
+      <a href="#services">Services</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#stylist">Stylist</a>
+      <a href="#access">Access</a>
+    </nav>
+    <a href="#reserve" class="header-btn">RESERVE</a>
+    <div class="hamburger" id="hamburger" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </div>
+  </header>
+
+  <!-- SP NAV -->
+  <nav class="sp-nav" id="spNav">
+    <span class="sp-nav-close" id="spNavClose">✕</span>
+    <a href="#concept" class="sp-nav-link">Concept</a>
+    <a href="#services" class="sp-nav-link">Services</a>
+    <a href="#gallery" class="sp-nav-link">Gallery</a>
+    <a href="#stylist" class="sp-nav-link">Stylist</a>
+    <a href="#access" class="sp-nav-link">Access</a>
+    <a href="#reserve" class="sp-nav-link">Reserve</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">HAIR SALON &nbsp;—&nbsp; SHIBUYA, TOKYO</p>
+      <h1 class="hero-title">
+        日常から切り離される時間
+        <span class="hero-logo-en">LUMIÈRE SALON</span>
+      </h1>
+      <div class="hero-line"></div>
+    </div>
+    <div class="hero-scroll">SCROLL</div>
+  </section>
+
+  <!-- CONCEPT -->
+  <section id="concept">
+    <div class="concept-grid">
+      <div class="concept-text reveal">
+        <div class="section-label">CONCEPT</div>
+        <h2>ここは、あなただけの<br>静かな時間が流れる場所。</h2>
+        <p>
+          LUMIÈRE SALONは、「光」を意味するフランス語から名付けられた、渋谷の喧噪から一歩離れたヘアサロンです。<br><br>
+          扉を開けた瞬間、時間の流れが変わります。静謐な空気、落ち着いたトーン、そしてあなただけに向き合うスタイリスト。<br><br>
+          美しくなることは、自分に還ること。その時間を、LUMIÈRE SALONで。
+        </p>
+      </div>
+      <div class="concept-image reveal reveal-delay-2">
+        <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=900&q=85" alt="サロン内観">
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="services-inner">
+      <div class="section-label reveal" style="color:var(--gold);">SERVICES &amp; PRICE</div>
+      <h2 class="services-title reveal">Menu</h2>
+      <div class="services-grid">
+        <div class="service-item reveal">
+          <div class="service-num">01</div>
+          <div class="service-name">カット</div>
+          <div class="service-desc">骨格・生え方・ライフスタイルから<br>あなたに最適なスタイルを提案します。</div>
+          <div class="service-price">¥8,800<small>〜（税込）</small></div>
+        </div>
+        <div class="service-item reveal reveal-delay-1">
+          <div class="service-num">02</div>
+          <div class="service-name">カラー</div>
+          <div class="service-desc">透明感と深みを両立した<br>LUMIÈRE独自のカラーレシピ。</div>
+          <div class="service-price">¥13,200<small>〜（税込）</small></div>
+        </div>
+        <div class="service-item reveal reveal-delay-2">
+          <div class="service-num">03</div>
+          <div class="service-name">パーマ</div>
+          <div class="service-desc">ダメージを最小限に、<br>理想のウェーブ・カールを実現。</div>
+          <div class="service-price">¥16,500<small>〜（税込）</small></div>
+        </div>
+        <div class="service-item reveal">
+          <div class="service-num">04</div>
+          <div class="service-name">トリートメント</div>
+          <div class="service-desc">施術後の美しさを持続させる<br>サロン専売ケアライン。</div>
+          <div class="service-price">¥5,500<small>〜（税込）</small></div>
+        </div>
+        <div class="service-item reveal reveal-delay-1">
+          <div class="service-num">05</div>
+          <div class="service-name">ヘッドスパ</div>
+          <div class="service-desc">頭皮の環境を整え、<br>内側から輝く髪へ。</div>
+          <div class="service-price">¥6,600<small>〜（税込）</small></div>
+        </div>
+        <div class="service-item reveal reveal-delay-2">
+          <div class="service-num">06</div>
+          <div class="service-name">カット + カラー</div>
+          <div class="service-desc">最も人気の組み合わせを<br>お得なセットメニューで。</div>
+          <div class="service-price">¥19,800<small>〜（税込）</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="section-label reveal">GALLERY</div>
+    <div class="gallery-grid">
+      <div class="gallery-item reveal">
+        <img src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=900&q=85" alt="salon 1">
+      </div>
+      <div class="gallery-item reveal reveal-delay-1">
+        <img src="https://images.unsplash.com/photo-1519831019785-0b40a8e5de72?w=600&q=80" alt="salon 2">
+      </div>
+      <div class="gallery-item reveal reveal-delay-2">
+        <img src="https://images.unsplash.com/photo-1522338242236-c9c3d1a9c2e5?w=600&q=80" alt="salon 3">
+      </div>
+      <div class="gallery-item reveal reveal-delay-1">
+        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=600&q=80" alt="salon 4">
+      </div>
+      <div class="gallery-item reveal reveal-delay-2">
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&q=80" alt="salon 5">
+      </div>
+    </div>
+  </section>
+
+  <!-- STYLIST -->
+  <section id="stylist">
+    <div class="stylist-inner">
+      <div class="section-label reveal">STYLIST</div>
+      <div class="stylist-grid">
+        <div class="stylist-card reveal">
+          <img class="stylist-photo" src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=400&q=80" alt="Yuki Mizushima">
+          <div class="stylist-info">
+            <div class="stylist-role">DIRECTOR</div>
+            <div class="stylist-name">水島 悠希</div>
+            <div class="stylist-en">Yuki Mizushima</div>
+            <p class="stylist-bio">パリ・ロンドンでの修業を経て2018年LUMIÈRE SALONを設立。透明感のあるカラーとナチュラルカットが得意。</p>
+          </div>
+        </div>
+        <div class="stylist-card reveal reveal-delay-1">
+          <img class="stylist-photo" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80" alt="Nana Harada">
+          <div class="stylist-info">
+            <div class="stylist-role">TOP STYLIST</div>
+            <div class="stylist-name">原田 奈々</div>
+            <div class="stylist-en">Nana Harada</div>
+            <p class="stylist-bio">骨格診断に基づいたスタイル提案が人気。丁寧なカウンセリングで「その人らしさ」を引き出す。</p>
+          </div>
+        </div>
+        <div class="stylist-card reveal">
+          <img class="stylist-photo" src="https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?w=400&q=80" alt="Saki Inoue">
+          <div class="stylist-info">
+            <div class="stylist-role">STYLIST</div>
+            <div class="stylist-name">井上 沙季</div>
+            <div class="stylist-en">Saki Inoue</div>
+            <p class="stylist-bio">ヘッドスパ・トリートメントのスペシャリスト。頭皮環境の改善から美しい髪をつくるアプローチが人気。</p>
+          </div>
+        </div>
+        <div class="stylist-card reveal reveal-delay-1">
+          <img class="stylist-photo" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80" alt="Ryo Takahashi">
+          <div class="stylist-info">
+            <div class="stylist-role">STYLIST</div>
+            <div class="stylist-name">高橋 遼</div>
+            <div class="stylist-en">Ryo Takahashi</div>
+            <p class="stylist-bio">カラーテクニストとして国内外のコンテスト入賞歴あり。独自のブレンドで、一人ひとりに合う色を作り出す。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACCESS -->
+  <section id="access">
+    <div class="section-label reveal">ACCESS</div>
+    <div class="access-grid reveal">
+      <div class="access-info">
+        <div class="access-block">
+          <div class="access-label">ADDRESS</div>
+          <div class="access-val">東京都渋谷区神南1-XX-XX<br>ルミエールビル 3F</div>
+        </div>
+        <div class="access-sep"></div>
+        <div class="access-block">
+          <div class="access-label">HOURS</div>
+          <div class="access-val">
+            平日　10:00 – 20:00<br>
+            土日祝　9:00 – 19:00<br>
+            定休日：火曜日
+          </div>
+        </div>
+        <div class="access-sep"></div>
+        <div class="access-block">
+          <div class="access-label">ACCESS</div>
+          <div class="access-val">JR渋谷駅 ハチ公口 徒歩7分<br>東京メトロ各線 渋谷駅 徒歩5分</div>
+        </div>
+        <div class="access-sep"></div>
+        <div class="access-block">
+          <div class="access-label">TEL</div>
+          <div class="access-val">03-XXXX-XXXX</div>
+        </div>
+      </div>
+      <div class="access-map-wrap">
+        <div class="access-map-inner">MAP</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESERVE CTA -->
+  <section id="reserve">
+    <div class="section-label" style="justify-content:center;">RESERVATION</div>
+    <h2 class="reveal">Reserve</h2>
+    <p class="reveal">ご予約・お問い合わせはこちらから</p>
+    <a href="tel:03-XXXX-XXXX" class="btn-outline-gold reveal">BOOK NOW</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-logo">LUMIÈRE SALON</div>
+          <div class="footer-tag">日常から切り離される時間</div>
+        </div>
+        <div class="footer-links">
+          <a href="#concept">Concept</a>
+          <a href="#services">Services</a>
+          <a href="#gallery">Gallery</a>
+          <a href="#stylist">Stylist</a>
+          <a href="#access">Access</a>
+        </div>
+      </div>
+      <p class="footer-copy">© 2025 LUMIÈRE SALON. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const header = document.getElementById('mainHeader');
+    const hero = document.getElementById('hero');
+    const hamburger = document.getElementById('hamburger');
+    const spNav = document.getElementById('spNav');
+    const spNavClose = document.getElementById('spNavClose');
+
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    function loadHero() { hero.classList.add('loaded'); }
+    if (document.readyState === 'complete') { loadHero(); }
+    else { window.addEventListener('load', () => setTimeout(loadHero, 80)); }
+    setTimeout(loadHero, 200);
+
+    hamburger.addEventListener('click', () => spNav.classList.add('open'));
+    spNavClose.addEventListener('click', () => spNav.classList.remove('open'));
+    document.querySelectorAll('.sp-nav-link').forEach(a => {
+      a.addEventListener('click', () => spNav.classList.remove('open'));
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+  </script>
+</body>
+</html>
